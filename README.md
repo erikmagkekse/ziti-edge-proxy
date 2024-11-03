@@ -42,4 +42,4 @@ docker pull docker.io/erikmagkekse/ziti-edge-proxy:main
 - CI Tests
 
 ## Note
-This project is NOT developed by NetFoundry or OpenZiti itself, it only uses the SDKs of OpenZiti.
+This **project is NOT developed by NetFoundry or OpenZiti** itself, it only uses the SDKs of OpenZiti.
