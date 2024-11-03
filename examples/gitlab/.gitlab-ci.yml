@@ -17,8 +17,7 @@ default:
 
 deploy:
   stage: build
-  image:
-    name: docker.io/erikmagkekse/ziti-edge-proxy:main
+  image: "YOUR-ANSIBLE-IMAGE"
   variables:
     ANSIBLE_REMOTE_USER: deployer
     ANSIBLE_INVENTORY: hosts.ini
