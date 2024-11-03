@@ -2,6 +2,14 @@ name: Docker build and push
 
 on:
   push:
+    branches:
+      - '**''
+    paths:
+      - 'src/**'
+      - '.github/**'
+      - 'requirements.txt'
+      - 'entrypoint.sh'
+      - 'Dockerfile'
 
 jobs:
   docker:
