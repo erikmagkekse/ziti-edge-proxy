@@ -9,7 +9,7 @@ variables:
   PROXY_USERNAME: user
   PROXY_PASSWORD: password
   ZITI_IDENTITY: $ZITI_IDENTITY_BASE64 # Variable from Gitlab CI/CD secrets
-Update 
+ 
 default:
   services:
     - name: docker.io/erikmagkekse/ziti-edge-proxy:main
