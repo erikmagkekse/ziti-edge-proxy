@@ -35,6 +35,7 @@ docker pull docker.io/erikmagkekse/ziti-edge-proxy:main
 ## Future roadmap
 - Add Codesinging
 - Improving logging
+- Add ghcr.io repository for image
 - Switch from Python image to Alpine or RedHat UBI
 - Add HTTP Proxy support
 - Rewrite in Go
