@@ -8,8 +8,8 @@ variables:
   PROXY_PORT: 1080
   PROXY_USERNAME: user
   PROXY_PASSWORD: password
-  ZITI_IDENTITY: $ZITI_IDENTITY_BASE64
-
+  ZITI_IDENTITY: $ZITI_IDENTITY_BASE64 # Variable from Gitlab CI/CD secrets
+Update 
 default:
   services:
     - name: docker.io/erikmagkekse/ziti-edge-proxy:main
@@ -24,7 +24,7 @@ deploy:
     ANSIBLE_INVENTORY: inventory/sample/hosts.ini
   before_script:
     - mkdir ~/.ssh
-    - echo $SSH_DEPLOY_KEY | base64 -d > ~/.ssh/id_rsa
+    - echo $SSH_DEPLOY_KEY_BASE64 | base64 -d > ~/.ssh/id_rsa # Variable from Gitlab CI/CD secrets
     - chmod 0600 ~/.ssh/id_rsa
   script:
     - ansible-playbook main.yml -v
