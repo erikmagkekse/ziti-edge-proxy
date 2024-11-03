@@ -32,10 +32,12 @@ docker pull docker.io/erikmagkekse/ziti-edge-proxy:main
 
 \*Only one of these can be used at a time and is not optional. If you use ZITI_IDENTITY, it will decode the identity JSON to "/app/identity.json" and update the var ZITI_IDENTITIES to point to the file.
 
-## Future plans
+## Future roadmap
+- Add Codesinging
 - Switch from Python image to Alpine or RedHat UBI
 - Add HTTP Proxy support
 - Rewrite in Go
+- CI Tests
 
 ## Note
 This project is NOT developed by NetFoundry or OpenZiti itself, it only uses the SDKs of OpenZiti.
