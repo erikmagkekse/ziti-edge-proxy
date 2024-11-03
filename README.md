@@ -22,7 +22,7 @@ docker pull docker.io/erikmagkekse/ziti-edge-proxy:main
 
 ### Enviroment variables
 | Variable        | Default Value           | Usage  |
-| ------------- |:-------------:| -----:|
+| ------------- | :------------- | :-----|
 | PROXY_HOST | 127.0.0.1 | Where the SOCKS5 server should be attached too |
 | PROXY_PORT | 1080 | Default port of the SOCKS5 server |
 | PROXY_USERNAME | user | Username for the SOCKS5 server |
