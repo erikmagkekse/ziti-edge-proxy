@@ -1,0 +1,33 @@
+stages:
+  - build
+
+variables:
+  CI_DEBUG_SERVICES: true
+  PROXY_ADDRESS: ziti-edge-proxy
+  PROXY_HOST: 127.0.0.1
+  PROXY_PORT: 1080
+  PROXY_USERNAME: user
+  PROXY_PASSWORD: password
+  ZITI_IDENTITY: $ZITI_IDENTITY_BASE64
+
+default:
+  services:
+    - name: registry.dev.eriks.life/erikslife/containers/ziti-edge-proxy:main
+      alias: ziti-edge-proxy
+
+deploy:
+  stage: build
+  image:
+    name: registry.dev.eriks.life/erikslife/containers/ansible-runner-with-ziti:main
+    entrypoint: [""]
+  variables:
+    ANSIBLE_REMOTE_USER: deployer
+    ANSIBLE_INVENTORY: inventory/sample/hosts.ini
+  before_script:
+    - mkdir ~/.ssh
+    - echo $SSH_DEPLOY_KEY | base64 -d > ~/.ssh/id_rsa
+    - chmod 0600 ~/.ssh/id_rsa
+  script:
+    - ansible-playbook main.yml -v
+
+    
