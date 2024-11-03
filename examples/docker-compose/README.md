@@ -9,7 +9,7 @@ ssh -o "ProxyCommand=ncat --proxy-auth user:1234 --proxy-type socks5 --proxy 127
 ```
 services:
   ziti-edge-proxy:
-    image: registry.dev.eriks.life/erikslife/containers/ziti-edge-proxy:main
+    image: docker.io/erikmagkekse/ziti-edge-proxy:main
     ports:
       - "1080:1080"
     environment:
@@ -26,7 +26,7 @@ Or simpler without volumes:
 ```
 services:
   ziti-edge-proxy:
-    image: registry.dev.eriks.life/erikslife/containers/ziti-edge-proxy:main
+    image: docker.io/erikmagkekse/ziti-edge-proxy:main
     ports:
       - "1080:1080"
     environment:
