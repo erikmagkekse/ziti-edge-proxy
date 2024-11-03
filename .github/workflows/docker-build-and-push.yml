@@ -24,6 +24,4 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          file: ./Containerfile
-          context: .
           tags: erikmagkekse/ziti-agent-proxy:${{ github.ref_name }} 
