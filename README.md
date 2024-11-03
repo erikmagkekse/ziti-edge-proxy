@@ -14,11 +14,11 @@ Check out some examples:
 - [Gitlab](https://github.com/erikmagkekse/ziti-edge-proxy/tree/main/examples/gitlab) 
 
 ### Docker Image
-This container image will be monitored regularly to keep the current CVEs in the image minimal. Currently the tagging of the images is solved by the branch name, "main" is the stable branch.
+This container image will be monitored regularly, as soon as we are in beta state, to keep the current CVEs in the image minimal. Currently the tagging of the images is solved by the branch name, "main" is the stable branch.
 ```
 docker pull docker.io/erikmagkekse/ziti-edge-proxy:main
 ```
-[DockerHub](https://hub.docker.com/erikmagkekse/ziti-edge-proxy/)
+[DockerHub](https://hub.docker.com/r/erikmagkekse/ziti-edge-proxy)
 
 ### Enviroment variables
 | Variable        | Default Value           | Usage  |
