@@ -1,0 +1,6 @@
+---
+- name: Example Ansible Playbook with ziti-edge-proxy
+  hosts: all
+  tasks:
+    - name: Run hello world
+      ansible.builtin.shell: "echo Hello World!"
