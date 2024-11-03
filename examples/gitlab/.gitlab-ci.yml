@@ -12,14 +12,13 @@ variables:
 
 default:
   services:
-    - name: registry.dev.eriks.life/erikslife/containers/ziti-edge-proxy:main
+    - name: docker.io/erikmagkekse/ziti-edge-proxy:main
       alias: ziti-edge-proxy
 
 deploy:
   stage: build
   image:
-    name: registry.dev.eriks.life/erikslife/containers/ansible-runner-with-ziti:main
-    entrypoint: [""]
+    name: docker.io/erikmagkekse/ziti-edge-proxy:main
   variables:
     ANSIBLE_REMOTE_USER: deployer
     ANSIBLE_INVENTORY: inventory/sample/hosts.ini
