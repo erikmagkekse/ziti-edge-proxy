@@ -21,7 +21,7 @@ deploy:
     name: docker.io/erikmagkekse/ziti-edge-proxy:main
   variables:
     ANSIBLE_REMOTE_USER: deployer
-    ANSIBLE_INVENTORY: inventory/sample/hosts.ini
+    ANSIBLE_INVENTORY: hosts.ini
   before_script:
     - mkdir ~/.ssh
     - echo $SSH_DEPLOY_KEY_BASE64 | base64 -d > ~/.ssh/id_rsa # Variable from Gitlab CI/CD secrets
