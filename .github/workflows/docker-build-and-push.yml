@@ -26,4 +26,4 @@ jobs:
           push: true
           file: Containerfile
           context: .
-          tags: erikmagkekse/ziti-agent-proxy:$GITHUB_REF
+          tags: erikmagkekse/ziti-agent-proxy:${{ GITHUB_REF }}
