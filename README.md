@@ -1,5 +1,5 @@
 # What is ziti-edge-proxy?
-This project uses OpenZiti to provide a SOCKS5 & HTTP Proxy with simple authentication that tunnels intercepted traffic through OpenZiti.
+This project uses OpenZiti to provides a SOCKS5 & HTTP Proxy with simple authentication that tunnels intercepted traffic through OpenZiti.
 The goal for this project was to make it fully functional in UserSpace, so that it can also be used in pipelines without privileges, for example in GitOps processes.
 
 ## Who is it for?
