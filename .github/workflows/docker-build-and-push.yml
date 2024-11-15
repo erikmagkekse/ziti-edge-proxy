@@ -3,14 +3,14 @@ name: Docker build and push
 on:
   push:
     branches:
-      - '**' 
+      - '**'
     paths:
       - 'src/**'
       - '.github/workflows/**'
       - 'requirements.txt'
       - 'entrypoint.sh'
       - 'Dockerfile'
-      - 'VERSION.txt' 
+      - 'VERSION.txt'
 
 jobs:
   docker:
@@ -22,35 +22,26 @@ jobs:
           echo "SAFE_BRANCH_NAME=$SAFE_BRANCH_NAME" >> $GITHUB_ENV
         env:
           GITHUB_REF_NAME: ${{ github.ref_name }}
-          
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Read version from VERSION.txt (only on main branch)
+      - name: Set Docker tags and read version from VERSION.txt (only on main branch)
         run: |
+          TAGS="erikmagkekse/ziti-edge-proxy:${{ env.SAFE_BRANCH_NAME }}"
+          
           if [ "${GITHUB_REF_NAME}" == "main" ]; then
             if [ -f VERSION.txt ]; then
               VERSION=$(cat VERSION.txt)
-              echo "VERSION=$VERSION" >> $GITHUB_ENV
+              TAGS="${TAGS},erikmagkekse/ziti-edge-proxy:${VERSION},erikmagkekse/ziti-edge-proxy:latest"
             else
-              echo "VERSION.txt not found, skipping version tag."
-              VERSION=""
+              TAGS="${TAGS},erikmagkekse/ziti-edge-proxy:latest"
             fi
-          else
-            echo "Not on main branch, skipping version tag."
-            VERSION=""
           fi
-
-      - name: Set Docker tags
-        run: |
-          if [ "${VERSION}" != "" ]; then
-            TAGS="erikmagkekse/ziti-edge-proxy:${{ env.SAFE_BRANCH_NAME }},erikmagkekse/ziti-edge-proxy:${{ env.VERSION }}"
-          else
-            TAGS="erikmagkekse/ziti-edge-proxy:${{ env.SAFE_BRANCH_NAME }}"
-          fi
+          
           echo "TAGS=$TAGS" >> $GITHUB_ENV
 
       - name: Login to Docker Hub
