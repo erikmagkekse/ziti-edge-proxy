@@ -8,8 +8,12 @@ ENV GID=23456
 ENV USER_HOME=/app
 ENV VIRTUAL_ENV=$USER_HOME/.venv
 
+ENV SOCKS_ENABLED=TRUE
+ENV HTTP_ENABLED=TRUE
+
 ENV PROXY_HOST=127.0.0.1
-ENV PROXY_PORT=1080
+ENV SOCKS_PORT=1080
+ENV HTTP_PORT=1080
 ENV PROXY_USERNAME=user
 ENV PROXY_PASSWORD=password
 
@@ -52,5 +56,6 @@ RUN pip3 install --no-cache -r requirements.txt
 
 # Start Python script, entrypoint and configure port
 EXPOSE 1080
+EXPOSE 8080
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD [ "python", "main.py" ]
