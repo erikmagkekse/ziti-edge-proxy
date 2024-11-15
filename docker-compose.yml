@@ -12,4 +12,4 @@ services:
       PROXY_PASSWORD: 1234
       ZITI_IDENTITIES: /app/identity.json
     volumes:
-      - "./identity.json:/app/identity.json"
+      - "../identity.json:/app/identity.json"
