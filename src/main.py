@@ -227,15 +227,26 @@ def validate_env():
         logging.error("PROXY_HOST environment variable is missing.")
         sys.exit(1)
     
-    try:
-        socks_port = int(socks_port)
-        http_port = int(http_port)
-        if not (0 < socks_port < 65536) or not (0 < http_port < 65536):
-            raise ValueError
-    except (ValueError, TypeError):
-        logging.error("Ports must be valid port numbers (1-65535).")
-        sys.exit(1)
-    
+    # Validating SOCKS port only if SOCKS_ENABLED is true
+    if socks_enabled:
+        try:
+            socks_port = int(socks_port)
+            if not (0 < socks_port < 65536):
+                raise ValueError
+        except (ValueError, TypeError):
+            logging.error("SOCKS_PORT must be a valid port number (1-65535).")
+            sys.exit(1)
+
+    # Validating HTTP port only if HTTP_ENABLED is true
+    if http_enabled:
+        try:
+            http_port = int(http_port)
+            if not (0 < http_port < 65536):
+                raise ValueError
+        except (ValueError, TypeError):
+            logging.error("HTTP_PORT must be a valid port number (1-65535).")
+            sys.exit(1)
+
     return socks_host, socks_port, http_port, username, password, socks_enabled, http_enabled
 
 if __name__ == "__main__":
