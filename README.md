@@ -1,5 +1,5 @@
 # What is ziti-edge-proxy?
-This project uses OpenZiti to provide a SOCKS5 Proxy with simple authentication that tunnels intercepted traffic through OpenZiti.
+This project uses OpenZiti to provide a SOCKS5 & HTTP Proxy with simple authentication that tunnels intercepted traffic through OpenZiti.
 The goal for this project was to make it fully functional in UserSpace, so that it can also be used in pipelines without privileges, for example in GitOps processes.
 
 ## Who is it for?
@@ -24,7 +24,8 @@ docker pull docker.io/erikmagkekse/ziti-edge-proxy:main
 | Variable         | Default Value     | Usage                                                       |
 | ---------------- | ----------------- | ----------------------------------------------------------- |
 | PROXY_HOST       | 127.0.0.1         | Where the SOCKS5 server should be attached                  |
-| PROXY_PORT       | 1080              | Default port of the SOCKS5 server                           |
+| SOCKS_PORT       | 1080              | Default port of the SOCKS5 server                           |
+| HTTP_PORT        | 8080              | Default port of the HTTP proxy server                       |
 | PROXY_USERNAME   | user              | Username for the SOCKS5 server                              |
 | PROXY_PASSWORD   | password          | Password for the SOCKS5 Server                              |
 | *ZITI_IDENTITIES | *empty*           | List of used Ziti identities, separated by semicolon        |
@@ -34,10 +35,10 @@ docker pull docker.io/erikmagkekse/ziti-edge-proxy:main
 
 ## Future roadmap
 - Add Codesinging
-- Improving logging
+- Improving logging ✅
 - Add ghcr.io repository for image
 - Switch from Python image to Alpine or RedHat UBI
-- Add HTTP Proxy support
+- Add HTTP Proxy support ✅
 - Rewrite in Go
 - CI Tests
 
