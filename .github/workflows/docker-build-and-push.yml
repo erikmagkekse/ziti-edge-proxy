@@ -36,8 +36,7 @@ jobs:
             echo "Version is $VERSION"
           else
             VERSION=""
-            ls
-            echo "Version file not found!"
+            echo "Version file not found! $(ls -la)"
             exit 1
           fi
           
