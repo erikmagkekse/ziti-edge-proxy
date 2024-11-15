@@ -5,7 +5,8 @@ variables:
   CI_DEBUG_SERVICES: true
   PROXY_ADDRESS: ziti-edge-proxy
   PROXY_HOST: 127.0.0.1
-  PROXY_PORT: 1080
+  SOCKS_PORT: 1080
+  HTTP_PORT: 8080
   PROXY_USERNAME: user
   PROXY_PASSWORD: password
   ZITI_IDENTITY: $ZITI_IDENTITY_BASE64 # Variable from Gitlab CI/CD secrets
@@ -17,7 +18,7 @@ default:
 
 deploy:
   stage: build
-  image: "YOUR-ANSIBLE-IMAGE"
+  image: YOUR-IMAGE
   variables:
     ANSIBLE_REMOTE_USER: deployer
     ANSIBLE_INVENTORY: hosts.ini
@@ -27,5 +28,11 @@ deploy:
     - chmod 0600 ~/.ssh/id_rsa
   script:
     - ansible-playbook main.yml -v
+
+curl-example:
+  stage: build
+  image: YOUR-IMAGE
+  script:
+    - curl -x http://${PROXY_USERNAME}:${PROXY_PASSWORD}@${PROXY_ADDRESS}:${PROXY_PORT} https://your.intercept.hostname.com
 
     
