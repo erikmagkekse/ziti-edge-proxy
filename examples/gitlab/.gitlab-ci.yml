@@ -33,6 +33,6 @@ curl-example:
   stage: build
   image: YOUR-IMAGE
   script:
-    - curl -x http://${PROXY_USERNAME}:${PROXY_PASSWORD}@${PROXY_ADDRESS}:${PROXY_PORT} https://your.intercept.hostname.com
+    - curl -x http://${PROXY_USERNAME}:${PROXY_PASSWORD}@${PROXY_ADDRESS}:${HTTP_PORT} https://your.intercept.hostname.com
 
     
