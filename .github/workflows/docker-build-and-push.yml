@@ -15,21 +15,29 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Set up QEMU
+      - name: Replace slashes in branch name
+        run: |
+          # Extract the branch name and replace slashes with dashes
+          SAFE_BRANCH_NAME="${GITHUB_REF_NAME//\//-}"
+          echo "Safe Branch Name: $SAFE_BRANCH_NAME"
+          echo "SAFE_BRANCH_NAME=$SAFE_BRANCH_NAME" >> $GITHUB_ENV
+        env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-      -
-        name: Set up Docker Buildx
+
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      -
-        name: Login to Docker Hub
+
+      - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Build and push
+
+      - name: Build and push
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: erikmagkekse/ziti-edge-proxy:${{ github.ref_name //\//- }} 
+          tags: erikmagkekse/ziti-edge-proxy:${{ env.SAFE_BRANCH_NAME }}
