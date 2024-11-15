@@ -3,14 +3,14 @@ name: Docker build and push
 on:
   push:
     branches:
-      - '**'  # Trigger für alle Branches
+      - '**' 
     paths:
       - 'src/**'
       - '.github/workflows/**'
       - 'requirements.txt'
       - 'entrypoint.sh'
       - 'Dockerfile'
-      - 'VERSION.txt'  # Sicherstellen, dass Änderungen an VERSION.txt auch den Workflow triggern
+      - 'VERSION.txt' 
 
 jobs:
   docker:
