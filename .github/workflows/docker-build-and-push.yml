@@ -16,6 +16,9 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+        
       - name: Replace slashes in branch name
         run: |
           SAFE_BRANCH_NAME="${GITHUB_REF_NAME//\//-}"
@@ -29,19 +32,25 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Set Docker tags and read version from VERSION.txt (only on main branch)
+      - name: Read version from VERSION.txt and set tags
         run: |
-          TAGS="erikmagkekse/ziti-edge-proxy:${{ env.SAFE_BRANCH_NAME }}"
-          
-          if [ "${GITHUB_REF_NAME}" == "main" ]; then
-            if [ -f VERSION.txt ]; then
-              VERSION=$(cat VERSION.txt)
-              TAGS="${TAGS},erikmagkekse/ziti-edge-proxy:${VERSION},erikmagkekse/ziti-edge-proxy:latest"
-            else
-              TAGS="${TAGS},erikmagkekse/ziti-edge-proxy:latest"
-            fi
+          if [ -f VERSION.txt ]; then
+            VERSION=$(cat VERSION.txt)
+            echo "Version is $VERSION"
+          else
+            VERSION=""
+            echo "Version file not found! $(ls -la)"
+            exit 1
           fi
           
+          if [ "${GITHUB_REF_NAME}" == "main" ]; then
+            TAGS="erikmagkekse/ziti-edge-proxy:${{ env.SAFE_BRANCH_NAME }},erikmagkekse/ziti-edge-proxy:${VERSION},erikmagkekse/ziti-edge-proxy:latest"
+          else
+            TAGS="erikmagkekse/ziti-edge-proxy:${{ env.SAFE_BRANCH_NAME }},erikmagkekse/ziti-edge-proxy:${{ env.SAFE_BRANCH_NAME }}-${VERSION}"
+          fi
+
+          echo "Will push with Tags: $TAGS"
+
           echo "TAGS=$TAGS" >> $GITHUB_ENV
 
       - name: Login to Docker Hub
