@@ -9,7 +9,7 @@ services:
       SOCKS_PORT: 1080
       HTTP_PORT: 8080
       HTTP_ENABLED: true
-      SOCKS_ENABLED: false
+      SOCKS_ENABLED: true
       PROXY_USERNAME: user
       PROXY_PASSWORD: 1234
       ZITI_IDENTITIES: /app/identity.json
