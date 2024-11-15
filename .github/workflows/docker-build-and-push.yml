@@ -6,7 +6,7 @@ on:
       - '**'
     paths:
       - 'src/**'
-      - '.github/**'
+      - '.github/workflows/**'
       - 'requirements.txt'
       - 'entrypoint.sh'
       - 'Dockerfile'
