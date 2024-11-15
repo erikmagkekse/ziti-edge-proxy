@@ -56,5 +56,6 @@ RUN pip3 install --no-cache -r requirements.txt
 
 # Start Python script, entrypoint and configure port
 EXPOSE 1080
+EXPOSE 8080
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD [ "python", "main.py" ]
