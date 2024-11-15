@@ -220,6 +220,8 @@ def validate_env():
     http_port = os.getenv("HTTP_PORT")
     username = os.getenv("PROXY_USERNAME")
     password = os.getenv("PROXY_PASSWORD")
+    socks_enabled = os.getenv("SOCKS_ENABLED", "false").lower() == "true"
+    http_enabled = os.getenv("HTTP_ENABLED", "false").lower() == "true"
     
     if not socks_host:
         logging.error("PROXY_HOST environment variable is missing.")
@@ -234,13 +236,15 @@ def validate_env():
         logging.error("Ports must be valid port numbers (1-65535).")
         sys.exit(1)
     
-    return socks_host, socks_port, http_port, username, password
+    return socks_host, socks_port, http_port, username, password, socks_enabled, http_enabled
 
 if __name__ == "__main__":
-    PROXY_HOST, SOCKS_PORT, HTTP_PORT, PROXY_USERNAME, PROXY_PASSWORD = validate_env()
+    PROXY_HOST, SOCKS_PORT, HTTP_PORT, PROXY_USERNAME, PROXY_PASSWORD, SOCKS_ENABLED, HTTP_ENABLED = validate_env()
 
-    socks_server = Socks5Server(PROXY_HOST=PROXY_HOST, PROXY_PORT=SOCKS_PORT, PROXY_USERNAME=PROXY_USERNAME, PROXY_PASSWORD=PROXY_PASSWORD)
-    http_server = HttpProxyServer(PROXY_HOST=PROXY_HOST, PROXY_PORT=HTTP_PORT, PROXY_USERNAME=PROXY_USERNAME, PROXY_PASSWORD=PROXY_PASSWORD)
+    if SOCKS_ENABLED:
+        socks_server = Socks5Server(PROXY_HOST=PROXY_HOST, PROXY_PORT=SOCKS_PORT, PROXY_USERNAME=PROXY_USERNAME, PROXY_PASSWORD=PROXY_PASSWORD)
+        threading.Thread(target=socks_server.start).start()
 
-    threading.Thread(target=socks_server.start).start()
-    threading.Thread(target=http_server.start).start()
+    if HTTP_ENABLED:
+        http_server = HttpProxyServer(PROXY_HOST=PROXY_HOST, PROXY_PORT=HTTP_PORT, PROXY_USERNAME=PROXY_USERNAME, PROXY_PASSWORD=PROXY_PASSWORD)
+        threading.Thread(target=http_server.start).start()
