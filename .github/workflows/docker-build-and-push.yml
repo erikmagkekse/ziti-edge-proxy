@@ -55,4 +55,4 @@ jobs:
           push: true
           tags: |
             erikmagkekse/ziti-edge-proxy:${{ env.SAFE_BRANCH_NAME }}
-            ${{ env.VERSION && 'erikmagkekse/ziti-edge-proxy:' + env.VERSION || '' }}
+            ${{ env.VERSION != '' && 'erikmagkekse/ziti-edge-proxy:' + env.VERSION || '' }}
