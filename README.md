@@ -10,8 +10,8 @@ Many runners have too many network privileges within an infrastructure, making i
 ## How can it be used?
 It's simple! You can either try it out with Docker Compose or integrate it directly into your pipelines.
 Check out some examples:
-- [Docker Compose](https://github.com/erikmagkekse/ziti-edge-proxy/tree/main/examples/docker-compose)
 - [GitHub](https://github.com/erikmagkekse/ziti-edge-proxy/tree/main/examples/github)
+- [GitLab](https://github.com/erikmagkekse/ziti-edge-proxy/tree/main/examples/gitlab)
 - [Docker Compose](https://github.com/erikmagkekse/ziti-edge-proxy/tree/main/examples/docker-compose)
 
 ### Docker Image
