@@ -11,7 +11,8 @@ Many runners have too many network privileges within an infrastructure, making i
 It's simple! You can either try it out with Docker Compose or integrate it directly into your pipelines.
 Check out some examples:
 - [Docker Compose](https://github.com/erikmagkekse/ziti-edge-proxy/tree/main/examples/docker-compose)
-- [GitLab](https://github.com/erikmagkekse/ziti-edge-proxy/tree/main/examples/gitlab)
+- [GitHub](https://github.com/erikmagkekse/ziti-edge-proxy/tree/main/examples/github)
+- [Docker Compose](https://github.com/erikmagkekse/ziti-edge-proxy/tree/main/examples/docker-compose)
 
 ### Docker Image
 This container image will be monitored regularly, as soon as we are in beta state, to keep the current CVEs in the image minimal. Currently, the tagging of the images is based on the branch name, "main" is the stable branch.

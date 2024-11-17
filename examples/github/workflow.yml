@@ -1,0 +1,26 @@
+name: ziti-edge-proxy example on GitHub
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      ziti-edge-proxy:
+        image: docker.io/erikmagkekse/ziti-edge-proxy:main
+        ports:
+          - 1080:1080
+          - 7070:7070
+        env:
+          PROXY_HOST: 0.0.0.0
+          HTTP_PORT: 7070 # For some reason 8080 is already listening on GitHub runners
+          PROXY_USERNAME: user
+          PROXY_PASSWORD: pass
+          ZITI_IDENTITY:  ${{ secrets.ZITI_IDENTITY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run a curl
+        run: |
+          curl -x http://user:pass@localhost:7070 https://your.intercept.hostname.com
