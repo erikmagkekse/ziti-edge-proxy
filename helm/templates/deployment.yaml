@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ziti-edge-proxy.fullname" . }}
+  labels:
+    {{- include "ziti-edge-proxy.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "ziti-edge-proxy.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ziti-edge-proxy.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "ziti-edge-proxy.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            {{- if .Values.appConfig.service.httpProxy.enabled }}
+            - name: http
+              containerPort: {{ .Values.appConfig.service.httpProxy.port }}
+              protocol: TCP
+            {{- end }}
+            {{- if .Values.appConfig.service.sockProxy.enabled }}
+            - name: sock
+              containerPort: {{ .Values.appConfig.service.sockProxy.port }}
+              protocol: TCP
+            {{- end }}
+          env:
+            - name: PROXY_HOST
+              value: "0.0.0.0"
+            - name: ZITI_IDENTITIES
+              value: "/identities/"
+            {{- if .Values.appConfig.service.httpProxy.enabled }}
+            - name: HTTP_PORT
+              value: "{{ .Values.appConfig.service.httpProxy.port }}"
+            {{- end }}
+            {{- if .Values.appConfig.service.sockProxy.enabled }}
+            - name: SOCK_PORT
+              value: "{{ .Values.appConfig.service.sockProxy.port }}"
+            {{- end }}
+            - name: HTTP_ENABLED
+              value: "{{ .Values.appConfig.service.httpProxy.enabled }}"
+            - name: SOCK_ENABLED
+              value: "{{ .Values.appConfig.service.sockProxy.enabled }}"
+          envFrom:
+          - secretRef:
+              name: {{ include "ziti-edge-proxy.secret.identitySecretName" . }}
+          - secretRef:
+              name: {{ include "ziti-edge-proxy.secret.credentialSecretName" . }}
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: ziti-identities
+              readOnly: true
+              mountPath: "/identities/"
+          {{- with .Values.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: ziti-identities
+          secret:
+            secretName: {{ include "ziti-edge-proxy.secret.identitySecretName" . }}
+      {{- with .Values.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

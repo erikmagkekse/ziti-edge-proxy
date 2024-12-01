@@ -1,0 +1,25 @@
+{{- if .Values.appConfig.service.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ziti-edge-proxy.fullname" . }}
+  labels:
+    {{- include "ziti-edge-proxy.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.appConfig.service.type }}
+  ports:
+    {{- if .Values.appConfig.service.httpProxy.enabled }}
+    - port: {{ .Values.appConfig.service.httpProxy.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+    {{- end }}
+    {{- if .Values.appConfig.service.sockProxy.enabled }}
+    - port: {{ .Values.appConfig.service.sockProxy.port }}
+      targetPort: sock
+      protocol: TCP
+      name: sock
+    {{- end }}
+  selector:
+    {{- include "ziti-edge-proxy.selectorLabels" . | nindent 4 }}
+{{- end }}
