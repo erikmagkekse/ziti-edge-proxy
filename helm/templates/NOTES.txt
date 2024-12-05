@@ -1,0 +1,6 @@
+Yay! Thank you for installing ziti-edge-proxy, the installation was sucessfull!
+If you didnt specified any specific password or secret you can fetch your Proxy credentials with these cool commands:
+Username: kubectl -n {{ .Release.Namespace }} get secrets {{ .Release.Name }}-credential -o jsonpath='{.data.PROXY_USERNAME}' | base64 -d
+Password: kubectl -n {{ .Release.Namespace }} get secrets {{ .Release.Name }}-credential -o jsonpath='{.data.PROXY_PASSWORD}' | base64 -d
+
+The IP of your Proxy will be your created service, have fun! :)

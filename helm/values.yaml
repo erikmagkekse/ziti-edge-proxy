@@ -24,7 +24,9 @@ appConfig:
   # Exsting secret for identity, create as ZITI_IDENTITY as Key and Value is a Base64 encoded Ziti Identity, no JWT.
     existingSecret: ""
     # Base64 encoded Ziti Identity, no JWT.
-    identity: ""
+    identities: []
+      # - name: my-ziti-network
+      #   identity: '{"ztAPI":"https://your-controller.....'
   credential:
     # Existing secret for the proxy credentials, create as PROXY_USERNAME, PROXY_PASSWORD as Key.
     existingSecret: ""
