@@ -32,7 +32,7 @@ else
 
     echo "Scanning for files matching: $ZITI_IDENTITIES"
 
-    files=$(find "$dir" -maxdepth 1 -name "$pattern" -type f 2>/dev/null | tr '\n' ',' | sed 's/,$//')
+    files=$(find "$dir" -maxdepth 1 -name "$pattern" -type f,l 2>/dev/null | tr '\n' ',' | sed 's/,$//')
 
     if [[ -n "$files" ]]; then
         export ZITI_IDENTITIES="$files"
