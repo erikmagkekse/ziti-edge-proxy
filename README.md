@@ -22,17 +22,17 @@ docker pull docker.io/erikmagkekse/ziti-edge-proxy:main
 [DockerHub](https://hub.docker.com/r/erikmagkekse/ziti-edge-proxy)
 
 ### Environment variables
-| Variable         | Default Value     | Usage                                                       |
-| ---------------- | ----------------- | ----------------------------------------------------------- |
-| PROXY_HOST       | 127.0.0.1         | Where the SOCKS5 server should be attached                  |
-| SOCKS_ENABLED    | true              | Enables SOCKS5 Server                                       |
-| HTTP_ENABLED     | true              | Enables HTTP Server                                         |
-| SOCKS_PORT       | 1080              | Default port of the SOCKS5 server                           |
-| HTTP_PORT        | 8080              | Default port of the HTTP proxy server                       |
-| PROXY_USERNAME   | user              | Username for the SOCKS5 server                              |
-| PROXY_PASSWORD   | password          | Password for the SOCKS5 Server                              |
-| *ZITI_IDENTITIES | *empty*           | List of used Ziti identities, separated by semicolon        |
-| *ZITI_IDENTITY   | *empty*           | A Base64 encoded string of a single identity JSON           |
+| Variable         | Default Value     | Usage                                                                                |
+| ---------------- | ----------------- | ------------------------------------------------------------------------------------ |
+| PROXY_HOST       | 127.0.0.1         | Where the SOCKS5 server should be attached                                           |
+| SOCKS_ENABLED    | true              | Enables SOCKS5 Server                                                                |
+| HTTP_ENABLED     | true              | Enables HTTP Server                                                                  |
+| SOCKS_PORT       | 1080              | Default port of the SOCKS5 server                                                    |
+| HTTP_PORT        | 8080              | Default port of the HTTP proxy server                                                |
+| PROXY_USERNAME   | user              | Username for the SOCKS5 server                                                       |
+| PROXY_PASSWORD   | password          | Password for the SOCKS5 Server                                                       |
+| *ZITI_IDENTITIES | *empty*           | List of used Ziti identities, separated by semicolon, can be also a wildcard.        |
+| *ZITI_IDENTITY   | *empty*           | A Base64 encoded string of a single identity JSON                                    |
 
 \*Only one of these can be used at a time and is not optional. If you use ZITI_IDENTITY, it will decode the identity JSON to "/app/identity.json" and update the var ZITI_IDENTITIES to point to the file.
 
