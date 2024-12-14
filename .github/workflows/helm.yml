@@ -21,7 +21,7 @@ jobs:
       - name: Set environment variables
         id: set-variables
         run: |
-          echo "REPOSITORY=registry-1.docker.io/erikmagkekse/charts" >> "$GITHUB_OUTPUT"
+          echo "REPOSITORY=registry-1.docker.io/erikmagkekse" >> "$GITHUB_OUTPUT"
           echo "VERSION=$(yq -r .version ./helm/Chart.yaml)" >> "$GITHUB_OUTPUT"   
 
       - name: Login to Docker Hub
