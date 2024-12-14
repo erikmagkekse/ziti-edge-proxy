@@ -7,8 +7,8 @@ on:
     branches:
       - 'main'
       - 'feature/helm-chart'
-    paths:
-      - 'helm/**'
+#    paths:
+#      - 'helm/**'
   workflow_dispatch:
 
 jobs:
