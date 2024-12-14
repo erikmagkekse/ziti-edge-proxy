@@ -20,7 +20,7 @@ jobs:
       - name: Set environment variables
         id: set-variables
         run: |
-          echo "REPOSITORY=registry.docker.io/erikmagkekse/ziti-edge-proxy" >> "$GITHUB_OUTPUT"
+          echo "REPOSITORY=registry.docker.io/erikmagkekse" >> "$GITHUB_OUTPUT"
           echo "VERSION=$(yq -r .version ./helm/Chart.yaml)" >> "$GITHUB_OUTPUT"    
       - name: Package and push helm chart
         run: |
