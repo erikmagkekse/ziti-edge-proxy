@@ -9,17 +9,18 @@ on:
       - 'feature/helm-chart'
     paths:
       - 'helm/**'
+  workflow_dispatch:
 
 jobs:
   helm:
     runs-on: ubuntu-latest
     steps:
-      - name: Push Helm chart to Github Registry
-        uses: bsord/helm-push@4.2.0
-        with:
-          useOCIRegistry: true
-          registry-url:  oci://ghcr.io/${{ github.repository }}
-          username: bsord
-          access-token: ${{ secrets.GITHUB_TOKEN }}
-          force: false
-          chart-folder: helm
+      - name: Set environment variables
+        id: set-variables
+        run: |
+          echo "REPOSITORY=registry.docker.io/erikmagkekse/ziti-edge-proxy" >> "$GITHUB_OUTPUT"
+          echo "VERSION=$(yq -r .version ./helm/Chart.yaml)" >> "$GITHUB_OUTPUT"    
+      - name: Package and push helm chart
+        run: |
+          helm package ./helm/ --version ${{ steps.set-variables.outputs.VERSION }}
+          helm push ./ziti-edge-proxy-${{ steps.set-variables.outputs.VERSION }}.tgz oci://${{ steps.set-variables.outputs.REPOSITORY }}/charts
