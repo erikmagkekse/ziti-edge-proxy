@@ -248,13 +248,21 @@ def validate_env():
     return socks_host, socks_port, http_port, username, password, socks_enabled, http_enabled
 
 if __name__ == "__main__":
-    openziti.monkeypatch()
     PROXY_HOST, SOCKS_PORT, HTTP_PORT, PROXY_USERNAME, PROXY_PASSWORD, SOCKS_ENABLED, HTTP_ENABLED = validate_env()
 
+    # Create server sockets BEFORE monkeypatch (they should be regular TCP sockets)
+    socks_server = None
+    http_server = None
     if SOCKS_ENABLED:
         socks_server = Socks5Server(PROXY_HOST=PROXY_HOST, PROXY_PORT=SOCKS_PORT, PROXY_USERNAME=PROXY_USERNAME, PROXY_PASSWORD=PROXY_PASSWORD)
-        threading.Thread(target=socks_server.start).start()
-
     if HTTP_ENABLED:
         http_server = HttpProxyServer(PROXY_HOST=PROXY_HOST, PROXY_PORT=HTTP_PORT, PROXY_USERNAME=PROXY_USERNAME, PROXY_PASSWORD=PROXY_PASSWORD)
+
+    # Now monkeypatch so outgoing connections use Ziti
+    openziti.monkeypatch()
+
+    # Start servers
+    if socks_server:
+        threading.Thread(target=socks_server.start).start()
+    if http_server:
         threading.Thread(target=http_server.start).start()
