@@ -14,7 +14,7 @@ curl -X http://127.0.0.1:8080 https://your.intercept.hostname.com
 ```
 services:
   ziti-edge-proxy:
-    image: docker.io/erikmagkekse/ziti-edge-proxy:main
+    image: ghcr.io/erikmagkekse/ziti-edge-proxy:main
     ports:
       - "1080:1080"
     environment:
@@ -32,7 +32,7 @@ Or simpler without volumes:
 ```
 services:
   ziti-edge-proxy:
-    image: docker.io/erikmagkekse/ziti-edge-proxy:main
+    image: ghcr.io/erikmagkekse/ziti-edge-proxy:main
     ports:
       - "1080:1080"
     environment:

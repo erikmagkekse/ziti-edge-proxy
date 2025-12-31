@@ -6,7 +6,7 @@ jobs:
 
     services:
       ziti-edge-proxy:
-        image: docker.io/erikmagkekse/ziti-edge-proxy:main
+        image: ghcr.io/erikmagkekse/ziti-edge-proxy:main
         ports:
           - 1080:1080
           - 7070:7070

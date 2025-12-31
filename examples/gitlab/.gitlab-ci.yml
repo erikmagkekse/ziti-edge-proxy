@@ -13,7 +13,7 @@ variables:
  
 default:
   services:
-    - name: docker.io/erikmagkekse/ziti-edge-proxy:main
+    - name: ghcr.io/erikmagkekse/ziti-edge-proxy:main
       alias: ziti-edge-proxy
 
 deploy:
