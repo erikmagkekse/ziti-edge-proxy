@@ -15,6 +15,9 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
@@ -42,11 +45,16 @@ jobs:
             echo "Version file not found! $(ls -la)"
             exit 1
           fi
-          
+
+          DOCKERHUB_IMAGE="erikmagkekse/ziti-edge-proxy"
+          GHCR_IMAGE="ghcr.io/${{ github.repository_owner }}/ziti-edge-proxy"
+
           if [ "${GITHUB_REF_NAME}" == "main" ]; then
-            TAGS="erikmagkekse/ziti-edge-proxy:${{ env.SAFE_BRANCH_NAME }},erikmagkekse/ziti-edge-proxy:${VERSION},erikmagkekse/ziti-edge-proxy:latest"
+            TAGS="${DOCKERHUB_IMAGE}:${{ env.SAFE_BRANCH_NAME }},${DOCKERHUB_IMAGE}:${VERSION},${DOCKERHUB_IMAGE}:latest"
+            TAGS="${TAGS},${GHCR_IMAGE}:${{ env.SAFE_BRANCH_NAME }},${GHCR_IMAGE}:${VERSION},${GHCR_IMAGE}:latest"
           else
-            TAGS="erikmagkekse/ziti-edge-proxy:${{ env.SAFE_BRANCH_NAME }},erikmagkekse/ziti-edge-proxy:${{ env.SAFE_BRANCH_NAME }}-${VERSION}"
+            TAGS="${DOCKERHUB_IMAGE}:${{ env.SAFE_BRANCH_NAME }},${DOCKERHUB_IMAGE}:${{ env.SAFE_BRANCH_NAME }}-${VERSION}"
+            TAGS="${TAGS},${GHCR_IMAGE}:${{ env.SAFE_BRANCH_NAME }},${GHCR_IMAGE}:${{ env.SAFE_BRANCH_NAME }}-${VERSION}"
           fi
 
           echo "Will push with Tags: $TAGS"
@@ -58,6 +66,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
         uses: docker/build-push-action@v6
