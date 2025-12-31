@@ -7,6 +7,7 @@ import socket
 import sys
 import logging
 import base64
+import time
 
 logging.basicConfig(
     level=logging.INFO,
@@ -260,6 +261,22 @@ if __name__ == "__main__":
 
     # Now monkeypatch so outgoing connections use Ziti
     openziti.monkeypatch()
+
+    # Warm up the SDK by doing a dummy connection - this triggers internal initialization
+    logging.info("Warming up Ziti SDK with dummy connection...")
+    try:
+        warmup_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        warmup_sock.settimeout(1)
+        warmup_sock.connect(("ziti-warmup-dummy.invalid", 1))
+    except Exception:
+        pass  # Expected to fail, but it warms up the SDK
+    finally:
+        try:
+            warmup_sock.close()
+        except Exception:
+            pass
+
+    logging.info("Ziti initialization complete, starting servers...")
 
     # Start servers
     if socks_server:
