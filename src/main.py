@@ -82,7 +82,6 @@ class Socks5Server:
             return False
 
     def socks5_connect(self, client_socket):
-        openziti.monkeypatch()
         try:
             version, cmd, _, addr_type = struct.unpack("!BBBB", client_socket.recv(4))
             assert version == 5
@@ -163,7 +162,6 @@ class HttpProxyServer:
             logging.info(f"Requested URL: {url}")
             target_host, target_port = self.parse_url(url)
 
-            openziti.monkeypatch()
             remote_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             remote_socket.connect((target_host, target_port))
 
@@ -250,6 +248,7 @@ def validate_env():
     return socks_host, socks_port, http_port, username, password, socks_enabled, http_enabled
 
 if __name__ == "__main__":
+    openziti.monkeypatch()
     PROXY_HOST, SOCKS_PORT, HTTP_PORT, PROXY_USERNAME, PROXY_PASSWORD, SOCKS_ENABLED, HTTP_ENABLED = validate_env()
 
     if SOCKS_ENABLED:
