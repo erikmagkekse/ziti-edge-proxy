@@ -226,7 +226,7 @@ class HttpProxyServer:
             if self.username and self.password:
                 auth_header = [h for h in headers if h.startswith("Proxy-Authorization:")]
                 if not auth_header or not self.authenticate(auth_header[0]):
-                    client_socket.sendall(b"HTTP/1.1 407 Proxy Authentication Required\r\n\r\n")
+                    client_socket.sendall(b"HTTP/1.1 407 Proxy Authentication Required\r\nProxy-Authenticate: Basic realm=\"ziti-edge-proxy\"\r\n\r\n")
                     logging.warning("HTTP authentication failed.")
                     return
 
